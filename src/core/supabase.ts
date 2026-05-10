@@ -1,9 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './database.types';
 
-export const SUPABASE_URL = 'https://nymrtujjmzbhxcimjsci.supabase.co';
-export const SUPABASE_PUBLISHABLE_KEY =
-  'sb_publishable_b2ytleL3Uz9w5NKkd1v7hg_FPiAl888';
+const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+if (!url || !anonKey) {
+  throw new Error(
+    'Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file (see .env.example).',
+  );
+}
+
+export const SUPABASE_URL: string = url;
+export const SUPABASE_PUBLISHABLE_KEY: string = anonKey;
 
 export const supabaseClient = createClient<Database>(
   SUPABASE_URL,

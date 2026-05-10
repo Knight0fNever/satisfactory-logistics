@@ -62,7 +62,7 @@ export const gamesAndSyncChapter: TutorialChapter = {
           popover: {
             title: 'Login to save online',
             description:
-              'Log in with Google or Discord and your active Game is uploaded to the cloud automatically — no manual save needed. From that moment every change you make is synced in realtime to the other devices and friends you share the Game with.',
+              'Log in with Discord or an email magic link, and your active Game is uploaded to the cloud automatically, no manual save needed. From that moment every change you make is synced in realtime to the other devices and friends you share the Game with.',
             side: 'bottom',
           },
         },

@@ -10,8 +10,6 @@
 - **Savegame import** — parse `.sav` game files to seed the planner with real in-game data
 - **Cloud sync** — optional Supabase-backed authentication and remote save/load
 
-Live site: https://satisfactory-logistics.xyz (this is a local clone, not the main repo)
-
 ---
 
 ## Requirements
@@ -294,7 +292,7 @@ The in-app guided tour lives in [src/tutorial/](src/tutorial/) and is built on t
 
 ---
 
-## Contributing (this is a local copy of the repo, these do not apply)
+## Contributing
 
 1. Fork the repository.
 2. Create a branch: `feature/my-feature` or `fix/my-fix`.
@@ -303,16 +301,3 @@ The in-app guided tour lives in [src/tutorial/](src/tutorial/) and is built on t
 5. **If your change touches the UI surface (new buttons / drawers / pages, renames, repositions)**, update the corresponding chapter in [src/tutorial/chapters/](src/tutorial/chapters/) — see the **Tutorials** section above.
 
 ---
-
-## Releases & Deployment (this is a local copy of the repo, these do not apply)
-
-Single-trunk model on `main`:
-
-- Pushes to `main` auto-deploy to **dev.satisfactory-logistics.xyz** (preview).
-- Releases are cut from the GitHub Actions UI via the [Release workflow](.github/workflows/release.yml). The workflow runs [release-it](https://github.com/release-it/release-it) with the config in [.release-it.json](.release-it.json) (pre-flight lint/types/tests, version bump, build, `CHANGELOG.md` update, commit, tag, push, GitHub Release) and POSTs to the Render deploy hook to rebuild **satisfactory-logistics.xyz** (production).
-
-To cut a release: GitHub → **Actions** → **Release** → **Run workflow** → pick `patch` / `minor` / `major`.
-
-The Render deploy hook URL lives in the `RENDER_PROD_DEPLOY_HOOK_URL` repo secret. The workflow uses the default `GITHUB_TOKEN` for the commit/tag/release; the deploy step is in the same workflow because `GITHUB_TOKEN` pushes do not trigger other workflows (so a tag-listening workflow would not fire).
-
-Use [conventional commit](https://www.conventionalcommits.org/) prefixes (`feat:`, `fix:`, `perf:`, `refactor:`) so the changelog generates cleanly.

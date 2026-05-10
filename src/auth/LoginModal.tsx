@@ -3,7 +3,7 @@ import { IconCloudOff } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import { useIsOnline } from '@/pwa/useNetworkStatus';
 import { DiscordLoginButton } from './providers/DiscordLoginButton';
-import { GoogleLoginButton } from './providers/GoogleLoginButton';
+import { EmailMagicLinkForm } from './providers/EmailMagicLinkForm';
 
 export interface ILoginModalProps {
   opened: boolean;
@@ -18,9 +18,10 @@ export function LoginModal(props: ILoginModalProps) {
     <Modal size="sm" opened={opened} onClose={close} title="Authentication">
       {isOnline ? (
         <>
-          <Stack gap="xs">
+          <Stack gap="md">
             <DiscordLoginButton />
-            <GoogleLoginButton />
+            <Divider label="or" labelPosition="center" />
+            <EmailMagicLinkForm />
           </Stack>
           <Divider mt="xl" mb="md" />
           <Text ta="center" size="sm" c="dark.2">

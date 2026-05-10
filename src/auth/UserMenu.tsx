@@ -93,18 +93,6 @@ export function UserMenu(props: IUserMenuProps) {
         >
           Logout
         </Menu.Item>
-        {/* <Menu.Item
-          leftSection={
-            loadingFactories ? <Loader size={16} /> : <IconDownload size={16} />
-          }
-          onClick={async () => {
-            setLoadingFactories(true);
-            await loadFromOldRemote(useStore.getState().auth.session, true);
-            setLoadingFactories(false);
-          }}
-        >
-          Load previously saved factories
-        </Menu.Item> */}
       </Menu.Dropdown>
     </Menu>
   );

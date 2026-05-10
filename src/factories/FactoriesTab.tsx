@@ -7,7 +7,6 @@ import {
   Stack,
 } from '@mantine/core';
 import { useState } from 'react';
-// import { loadFromRemote } from '../auth/sync/loadFromRemote';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '@/auth/authSelectors';
 import { useStore } from '@/core/zustand';
