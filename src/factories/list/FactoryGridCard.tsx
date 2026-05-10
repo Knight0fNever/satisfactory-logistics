@@ -1,12 +1,15 @@
 import { type Path, setByPath } from '@clickbar/dot-diver';
 import { Card, Flex, Group, Stack, Text } from '@mantine/core';
+import { IconBolt } from '@tabler/icons-react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/core/zustand';
+import { formatFactoryPower } from '@/factories/components/formatPower';
 import { ProgressChip } from '@/factories/components/ProgressChip';
 import type { Factory } from '@/factories/Factory';
 import { FactoryActionsMenu } from '@/factories/list/FactoryActionsMenu';
 import { useIsFactoryVisible } from '@/factories/useIsFactoryVisible';
+import { usePowerForFactory } from '@/factories/usePowerForFactory';
 import { FactoryPeers } from '@/games/sync/ui/FactoryPeers';
 import { FactoryItemImage } from '@/recipes/ui/FactoryItemImage';
 import classes from './FactoryGridCard.module.css';
@@ -29,6 +32,7 @@ export function FactoryGridCard(props: IFactoryGridCard) {
   );
 
   const isVisible = useIsFactoryVisible(id, true);
+  const powerView = usePowerForFactory(id);
 
   if (!isVisible) return null;
 
@@ -40,6 +44,7 @@ export function FactoryGridCard(props: IFactoryGridCard) {
   return (
     <Card
       key={id}
+      ref={powerView.ref}
       withBorder
       component={Link}
       to={id}
@@ -72,6 +77,21 @@ export function FactoryGridCard(props: IFactoryGridCard) {
               </Group>
             ))}
           </Flex>
+          <Group
+            gap={4}
+            wrap="nowrap"
+            data-tutorial-id="factory-card-power"
+            c={powerView.power ? undefined : 'dimmed'}
+          >
+            <IconBolt size={14} stroke={1.6} />
+            <Text size="xs">
+              {powerView.hasSolver
+                ? (formatFactoryPower(powerView.power, {
+                    hideWhenMissing: true,
+                  }) ?? (powerView.loading ? 'Calculating...' : '-'))
+                : '- (no solver)'}
+            </Text>
+          </Group>
         </Stack>
         <Group gap={4} wrap="nowrap" className={classes.progressChip}>
           {showProgressStatus && (

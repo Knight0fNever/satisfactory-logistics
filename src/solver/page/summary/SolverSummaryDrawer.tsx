@@ -10,10 +10,8 @@ import { useMemo } from 'react';
 import { RepeatingNumber } from '@/core/intl/NumberFormatter';
 import { AllFactoryItemsMap } from '@/recipes/FactoryItem';
 import { FactoryItemImage } from '@/recipes/ui/FactoryItemImage';
-import type {
-  SolverAreaNode,
-  SolverEnergyNode,
-} from '@/solver/algorithm/SolverNode';
+import { computeSolutionPower } from '@/solver/algorithm/computeSolutionPower';
+import type { SolverAreaNode } from '@/solver/algorithm/SolverNode';
 import type { IMachineNodeData } from '@/solver/layout/nodes/machine-node/MachineNode';
 import type { IResourceNodeData } from '@/solver/layout/nodes/resource-node/ResourceNode';
 import type { ISolverSolution } from '@/solver/page/ISolverSolution';
@@ -36,13 +34,8 @@ export function SolverSummaryDrawer(props: ISolverSummaryDrawerProps) {
         node.type === 'Machine',
     );
 
-    // Power
-    const power = machineNodes.reduce((acc, node) => {
-      const energyNode = solution.graph.getNodeAttributes(
-        `e${node.data.recipe.index}`,
-      ) as SolverEnergyNode;
-      return acc + (energyNode.value ?? 0);
-    }, 0);
+    // Power (handles fixed + variable-power machines as min/max range)
+    const power = computeSolutionPower(solution);
 
     // Area
     const area = machineNodes.reduce((acc, node) => {
@@ -107,7 +100,17 @@ export function SolverSummaryDrawer(props: ISolverSummaryDrawerProps) {
             </Group>
             <Group gap={4}>
               <Text size="lg" fw={600}>
-                <RepeatingNumber value={stats.power} /> MW
+                {stats.power.hasVariable ? (
+                  <>
+                    <RepeatingNumber value={stats.power.min} />
+                    {'–'}
+                    <RepeatingNumber value={stats.power.max} /> MW
+                  </>
+                ) : (
+                  <>
+                    <RepeatingNumber value={stats.power.max} /> MW
+                  </>
+                )}
               </Text>
             </Group>
             <Group gap={4}>

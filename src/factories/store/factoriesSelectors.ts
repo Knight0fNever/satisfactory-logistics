@@ -146,3 +146,48 @@ export const useFactorySimpleAttributes = (id: string | null | undefined) => {
 export type FactorySimpleAttributes = ReturnType<
   typeof useFactorySimpleAttributes
 >;
+
+export interface TotalGamePower {
+  min: number;
+  max: number;
+  hasVariable: boolean;
+  /** Number of factories in the current game that have not produced a value yet. */
+  missingCount: number;
+  /** Number of factories that contributed to the totals. */
+  countedCount: number;
+}
+
+export const useTotalGamePower = (): TotalGamePower => {
+  return useShallowStore(state => {
+    const gameId = state.games.selected;
+    if (!gameId) {
+      return {
+        min: 0,
+        max: 0,
+        hasVariable: false,
+        missingCount: 0,
+        countedCount: 0,
+      };
+    }
+    const factoriesIds = state.games.games[gameId]?.factoriesIds ?? [];
+    let min = 0;
+    let max = 0;
+    let hasVariable = false;
+    let missingCount = 0;
+    let countedCount = 0;
+    for (const id of factoriesIds) {
+      const factory = state.factories.factories[id];
+      if (!factory || factory.progress === 'disabled') continue;
+      const power = factory.powerConsumption;
+      if (!power) {
+        missingCount += 1;
+        continue;
+      }
+      min += power.min;
+      max += power.max;
+      hasVariable = hasVariable || power.hasVariable;
+      countedCount += 1;
+    }
+    return { min, max, hasVariable, missingCount, countedCount };
+  });
+};

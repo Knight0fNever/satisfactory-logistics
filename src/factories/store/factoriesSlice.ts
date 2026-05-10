@@ -1,6 +1,6 @@
 import { useStore } from '@/core/zustand';
 import { createSlice } from '@/core/zustand-helpers/slices';
-import type { Factory } from '@/factories/Factory';
+import type { Factory, FactoryPower } from '@/factories/Factory';
 
 interface FactoriesSlice {
   factories: Record<string, Factory>;
@@ -40,6 +40,12 @@ export const factoriesSlice = createSlice({
     updateFactoryOutputAmount:
       (factoryId: string, outputIndex: number, amount: number) => state => {
         state.factories[factoryId].outputs[outputIndex].amount = amount;
+      },
+    setFactoryPower:
+      (factoryId: string, power: FactoryPower | null) => state => {
+        const factory = state.factories[factoryId];
+        if (!factory) return;
+        factory.powerConsumption = power;
       },
     setFactoryAllowedBuildings:
       (factoryId: string, allowedBuildings: string[] | null) => state => {

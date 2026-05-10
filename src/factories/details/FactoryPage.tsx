@@ -1,11 +1,13 @@
-import { Button, Group, SegmentedControl, Title } from '@mantine/core';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { Button, Group, SegmentedControl, Text, Title } from '@mantine/core';
+import { IconArrowLeft, IconBolt } from '@tabler/icons-react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { formatFactoryPower } from '@/factories/components/formatPower';
 import { FactoryDeleteButton } from '@/factories/details/FactoryDeleteButton';
 import { FactoryGraph } from '@/factories/details/FactoryGraph';
 import { ProductionView } from '@/factories/details/ProductionView';
 import { FactoryActionsMenu } from '@/factories/list/FactoryActionsMenu';
 import { useFactorySimpleAttributes } from '@/factories/store/factoriesSelectors';
+import { usePowerForFactory } from '@/factories/usePowerForFactory';
 import { AfterHeaderSticky } from '@/layout/AfterHeaderSticky';
 import { FullHeightContainer } from '@/layout/FullHeightContainer';
 
@@ -22,6 +24,7 @@ export const FactoryPage = ({
   }
 
   const factory = useFactorySimpleAttributes(id);
+  const powerView = usePowerForFactory(id);
 
   return (
     <>
@@ -39,6 +42,22 @@ export const FactoryPage = ({
               All Factories
             </Button>
             <Title order={4}>{factory.name}</Title>
+            <Group
+              gap={4}
+              wrap="nowrap"
+              data-tutorial-id="factory-header-power"
+              c={powerView.power ? undefined : 'dimmed'}
+              ref={powerView.ref}
+            >
+              <IconBolt size={16} stroke={1.6} />
+              <Text size="sm">
+                {powerView.hasSolver
+                  ? (formatFactoryPower(powerView.power, {
+                      hideWhenMissing: true,
+                    }) ?? (powerView.loading ? 'Calculating...' : '-'))
+                  : '- (no solver)'}
+              </Text>
+            </Group>
           </Group>
           <Group gap="sm">
             <SegmentedControl

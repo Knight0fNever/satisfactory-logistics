@@ -5,16 +5,18 @@ import {
   Collapse,
   Group,
   Stack,
+  Text,
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { IconCalculator } from '@tabler/icons-react';
+import { IconBolt, IconCalculator } from '@tabler/icons-react';
 import type * as React from 'react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormOnChange } from '@/core/form/useFormOnChange';
 import { useStore } from '@/core/zustand';
 import { FactoryExpandActionIcon } from '@/factories/components/expand/FactoryExpandActionIcon';
+import { formatFactoryPower } from '@/factories/components/formatPower';
 import {
   FactoryInputIcon,
   FactoryOutputIcon,
@@ -24,6 +26,7 @@ import { FactoryInputRow } from '@/factories/inputs/input-row/FactoryInputRow';
 import { FactoryOutputRow } from '@/factories/inputs/output-row/FactoryOutputRow';
 import { FactoryActionsMenu } from '@/factories/list/FactoryActionsMenu';
 import { useIsFactoryVisible } from '@/factories/useIsFactoryVisible';
+import { usePowerForFactory } from '@/factories/usePowerForFactory';
 import { useGameFactoryIsCollapsed } from '@/games/gamesSlice';
 import { FactoryPeers } from '@/games/sync/ui/FactoryPeers';
 
@@ -55,6 +58,7 @@ export function FactoryRow(props: IFactoryRowProps) {
 
   const isVisible = useIsFactoryVisible(id, true);
   const isCollapsed = useGameFactoryIsCollapsed(id);
+  const powerView = usePowerForFactory(id);
   if (!isVisible) return null;
 
   if (!factory) {
@@ -65,6 +69,7 @@ export function FactoryRow(props: IFactoryRowProps) {
   return (
     <Card
       key={id}
+      ref={powerView.ref}
       withBorder
       style={{ opacity: factory.progress === 'disabled' ? 0.55 : 1 }}
     >
@@ -97,6 +102,22 @@ export function FactoryRow(props: IFactoryRowProps) {
           </Stack>
         </Group>
         <Group align="flex-end" gap="xs">
+          <Group
+            gap={4}
+            wrap="nowrap"
+            data-tutorial-id="factory-row-power"
+            c={powerView.power ? undefined : 'dimmed'}
+            mr="xs"
+          >
+            <IconBolt size={14} stroke={1.6} />
+            <Text size="xs">
+              {powerView.hasSolver
+                ? (formatFactoryPower(powerView.power, {
+                    hideWhenMissing: true,
+                  }) ?? (powerView.loading ? 'Calculating...' : '-'))
+                : '- (no solver)'}
+            </Text>
+          </Group>
           <Tooltip label="Add Input" position="top">
             <ActionIcon
               variant="light"

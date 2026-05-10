@@ -32,6 +32,7 @@ import { removeMissingFactoriesInGames } from './migrations/removeMissingFactori
 import { storeMigrationV2 } from './migrations/v2';
 import { storeMigrationV4 } from './migrations/v4';
 import { storeMigrationV10 } from './migrations/v10';
+import { storeMigrationV11 } from './migrations/v11';
 import { withActions } from './zustand-helpers/actions';
 import { forceMigrationOnInitialPersist } from './zustand-helpers/forceMigrationOnInitialPersist';
 import { indexedDbStorage } from './zustand-helpers/indexedDbStorage';
@@ -71,7 +72,7 @@ export const useStore = create(
       name: 'zustand:persist',
       partialize: state =>
         omit(state, ['gameSave', 'peers', 'mapSelection', 'mapInfrastructure']),
-      version: 10,
+      version: 11,
       storage: forceMigrationOnInitialPersist(
         createJSONStorage(() => indexedDbStorage),
       ),
@@ -274,6 +275,13 @@ export const useStore = create(
         if (version === 9) {
           logger.log('Migrating from version 9 to 10 [map infra flags]');
           return storeMigrationV10(state) as typeof state;
+        }
+
+        if (version === 10) {
+          logger.log(
+            'Migrating from version 10 to 11 [factory power cache shape]',
+          );
+          return storeMigrationV11(state) as typeof state;
         }
 
         return state;

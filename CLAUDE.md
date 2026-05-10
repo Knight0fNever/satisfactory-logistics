@@ -10,7 +10,7 @@
 - **Savegame import** — parse `.sav` game files to seed the planner with real in-game data
 - **Cloud sync** — optional Supabase-backed authentication and remote save/load
 
-Live site: https://satisfactory-logistics.xyz
+Live site: https://satisfactory-logistics.xyz (this is a local clone, not the main repo)
 
 ---
 
@@ -32,16 +32,16 @@ npm run dev        # starts Vite dev server at http://localhost:5173
 
 ## Available Scripts
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Start Vite development server |
-| `npm run build` | TypeScript check + Vite production build |
-| `npm run preview` | Serve the production build locally |
-| `npm test` | Run Vitest unit tests |
-| `npm run check-types` | TypeScript type check without emitting output |
-| `npm run lint` | Biome check on `src/` (linting + formatting) |
-| `npm run format` | Biome auto-format `src/` (write in place) |
-| `npm run parse-docs` | Parse Satisfactory game data files into JSON (see below) |
+| Script                   | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| `npm run dev`            | Start Vite development server                                |
+| `npm run build`          | TypeScript check + Vite production build                     |
+| `npm run preview`        | Serve the production build locally                           |
+| `npm test`               | Run Vitest unit tests                                        |
+| `npm run check-types`    | TypeScript type check without emitting output                |
+| `npm run lint`           | Biome check on `src/` (linting + formatting)                 |
+| `npm run format`         | Biome auto-format `src/` (write in place)                    |
+| `npm run parse-docs`     | Parse Satisfactory game data files into JSON (see below)     |
 | `npm run supabase:types` | Regenerate `src/core/database.types.ts` from Supabase schema |
 
 ---
@@ -101,18 +101,18 @@ chartsSlice       → chart visualization preferences
 
 React Router v6, defined in [src/routes/FactoriesRoutes.tsx](src/routes/FactoriesRoutes.tsx):
 
-| Path | View |
-|---|---|
-| `/login` | Login page |
-| `/privacy-policy` | Privacy policy |
-| `/factories` | Factories list (grid / spreadsheet / kanban) |
-| `/factories/:id` | Factory detail + inline calculator |
-| `/factories/:id/calculator` | Factory's solver view |
-| `/factories/charts` | Sankey / graph charts |
-| `/factories/calculator` | Standalone LP calculator |
-| `/factories/calculator/shared/:sharedId` | Shared solver import |
-| `/games/*` | Game management pages |
-| `*` | Redirect → `/factories` |
+| Path                                     | View                                         |
+| ---------------------------------------- | -------------------------------------------- |
+| `/login`                                 | Login page                                   |
+| `/privacy-policy`                        | Privacy policy                               |
+| `/factories`                             | Factories list (grid / spreadsheet / kanban) |
+| `/factories/:id`                         | Factory detail + inline calculator           |
+| `/factories/:id/calculator`              | Factory's solver view                        |
+| `/factories/charts`                      | Sankey / graph charts                        |
+| `/factories/calculator`                  | Standalone LP calculator                     |
+| `/factories/calculator/shared/:sharedId` | Shared solver import                         |
+| `/games/*`                               | Game management pages                        |
+| `*`                                      | Redirect → `/factories`                      |
 
 ### LP Solver (HIGHS)
 
@@ -138,7 +138,9 @@ Loading pattern — direct JSON import + post-processing into lookup maps:
 ```typescript
 import RawFactoryItems from './FactoryItems.json';
 export const AllFactoryItems = RawFactoryItems as FactoryItem[];
-export const AllFactoryItemsMap = Object.fromEntries(AllFactoryItems.map(i => [i.id, i]));
+export const AllFactoryItemsMap = Object.fromEntries(
+  AllFactoryItems.map((i) => [i.id, i]),
+);
 ```
 
 ### Savegame Parsing
@@ -184,7 +186,11 @@ If tests cover the touched area, also run `npm test -- --run`.
 Biome handles both formatting and linting via [`biome.json`](biome.json):
 
 ```json
-{ "quoteStyle": "single", "trailingCommas": "all", "arrowParentheses": "asNeeded" }
+{
+  "quoteStyle": "single",
+  "trailingCommas": "all",
+  "arrowParentheses": "asNeeded"
+}
 ```
 
 Run `npm run format` before committing. Run `npm run lint` to check for errors.
@@ -195,13 +201,13 @@ Run `npm run format` before committing. Run `npm run lint` to check for errors.
 
 ### Naming Conventions
 
-| Kind | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `FactoryPage`, `ChartsTab` |
-| Store slices | camelCase | `factoriesSlice`, `solversSlice` |
-| Hooks | `use` prefix | `useGameSettings`, `useSolverSolution` |
-| Types / Interfaces | PascalCase | `Factory`, `FactoryInput` |
-| Actions | verb-first camelCase | `createFactory`, `updateGameSettings` |
+| Kind               | Convention           | Example                                |
+| ------------------ | -------------------- | -------------------------------------- |
+| Components         | PascalCase           | `FactoryPage`, `ChartsTab`             |
+| Store slices       | camelCase            | `factoriesSlice`, `solversSlice`       |
+| Hooks              | `use` prefix         | `useGameSettings`, `useSolverSolution` |
+| Types / Interfaces | PascalCase           | `Factory`, `FactoryInput`              |
+| Actions            | verb-first camelCase | `createFactory`, `updateGameSettings`  |
 
 ### File Organisation
 
@@ -288,7 +294,7 @@ The in-app guided tour lives in [src/tutorial/](src/tutorial/) and is built on t
 
 ---
 
-## Contributing
+## Contributing (this is a local copy of the repo, these do not apply)
 
 1. Fork the repository.
 2. Create a branch: `feature/my-feature` or `fix/my-fix`.
@@ -298,7 +304,7 @@ The in-app guided tour lives in [src/tutorial/](src/tutorial/) and is built on t
 
 ---
 
-## Releases & Deployment
+## Releases & Deployment (this is a local copy of the repo, these do not apply)
 
 Single-trunk model on `main`:
 

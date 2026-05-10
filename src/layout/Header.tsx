@@ -24,6 +24,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserMenu } from '@/auth/UserMenu';
 import { openSpotlight } from '@/codex/spotlight/CodexSpotlight';
 import { useStore } from '@/core/zustand';
+import { TotalGamePowerBadge } from '@/factories/components/TotalGamePowerBadge';
 import { GameMenu } from '@/games/menu/GameMenu';
 import { GameSettingsModal } from '@/games/settings/GameSettingsModal';
 import { RealtimeSyncIndicator } from '@/games/sync/ui/RealtimeSyncIndicator';
@@ -165,6 +166,7 @@ export function Header() {
               </Tabs.List>
             </Tabs>
             <Group gap="xs" wrap="nowrap" className={classes.gameActions}>
+              <TotalGamePowerBadge />
               <NotesPanelTrigger />
               <GameSettingsModal />
             </Group>

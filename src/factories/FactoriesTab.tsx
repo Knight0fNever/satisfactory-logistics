@@ -1,4 +1,11 @@
-import { Container, Divider, SimpleGrid, Space, Stack } from '@mantine/core';
+import {
+  Container,
+  Divider,
+  Group,
+  SimpleGrid,
+  Space,
+  Stack,
+} from '@mantine/core';
 import { useState } from 'react';
 // import { loadFromRemote } from '../auth/sync/loadFromRemote';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +16,7 @@ import { FactoriesKanban } from '@/factories/list/FactoriesKanban';
 import { FactoryRow } from '@/factories/list/FactoryRow';
 import { useGameFactoriesIds } from '@/games/gamesSlice';
 import { useGameFactories } from '@/games/store/gameFactoriesSelectors';
+import { TotalGamePowerBadge } from './components/TotalGamePowerBadge';
 import { FactoriesFiltersMenu } from './filters/FactoriesFiltersMenu';
 import { FactoryGridCard } from './list/FactoryGridCard';
 
@@ -44,6 +52,11 @@ export function FactoriesTab(_props: IFactoriesTabProps) {
       <FactoriesFiltersMenu />
 
       <Container size="lg" mt="lg">
+        {hasFactories && (
+          <Group justify="flex-end" mb="sm">
+            <TotalGamePowerBadge size="md" showCounts />
+          </Group>
+        )}
         {!hasFactories && <FactoriesEmptyState />}
         {viewMode === 'spreadsheet' && (
           <Stack gap="md">

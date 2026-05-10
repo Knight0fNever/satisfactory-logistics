@@ -19,7 +19,7 @@ export interface Factory {
   notes?: JSONContent | null;
   inputs: FactoryInput[];
   outputs: FactoryOutput[];
-  powerConsumption?: number | null;
+  powerConsumption?: FactoryPower | null;
   /** Factory-specific building overrides. If set, overrides game-level allowedBuildings */
   allowedBuildings?: string[] | null;
   progress?: FactoryProgressStatus | null;
@@ -59,6 +59,20 @@ export interface FactoryOutput {
 export type FactoryOutputObjective = 'default' | 'max';
 
 export type FactoryOutputDestination = 'default' | 'depot';
+
+export interface FactoryPower {
+  min: number;
+  max: number;
+  hasVariable: boolean;
+  /**
+   * Hash of the inputs/outputs/recipes that produced this value. When the
+   * hash no longer matches the current factory state the cached value is
+   * considered stale and will be recomputed.
+   */
+  hash: string;
+  /** ms timestamp of last computation, useful for staleness debugging. */
+  computedAt: number;
+}
 
 interface FactoriesSettings {
   noHighlight100PercentUsage?: boolean;
