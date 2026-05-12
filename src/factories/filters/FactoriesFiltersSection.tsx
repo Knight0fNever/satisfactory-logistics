@@ -12,9 +12,9 @@ import {
   IconClipboard,
   IconLayoutGrid,
   IconLayoutKanban,
+  IconListDetails,
   IconPlus,
   IconSearch,
-  IconTable,
   IconTextGrammar,
   IconUpload,
 } from '@tabler/icons-react';
@@ -61,11 +61,11 @@ export function FactoriesFiltersSection(_props: IFactoriesFiltersSectionProps) {
             {
               label: (
                 <Center style={{ gap: 6 }}>
-                  <IconTable size={16} />
-                  <span>Spreadsheet</span>
+                  <IconListDetails size={16} />
+                  <span>Detailed</span>
                 </Center>
               ),
-              value: 'spreadsheet',
+              value: 'detailed',
             },
           ]}
           value={factoryView?.viewMode ?? 'grid'}

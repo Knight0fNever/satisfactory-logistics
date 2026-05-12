@@ -155,7 +155,7 @@ export const factoryBasicsChapter: TutorialChapter = {
           popover: {
             title: 'Three ways to view factories',
             description:
-              'Grid, Kanban and Spreadsheet: pick whichever fits what you are doing. The factory you just built appears in all three.',
+              'Grid, Kanban and Detailed: pick whichever fits what you are doing. The factory you just built appears in all three.',
             side: 'bottom',
           },
         },

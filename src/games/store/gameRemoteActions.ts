@@ -142,7 +142,7 @@ export function loadSerializedGameIntoState(
         }
       }
       // Bump the remote-sync epoch so views holding uncontrolled inputs
-      // (spreadsheet's `<TextInput defaultValue=...>`) remount and pick up
+      // (detailed view's `<TextInput defaultValue=...>`) remount and pick up
       // the replaced state. We bump only when an existing local game is
       // actually being replaced, never on first-load (no stale UI to clear)
       // and never on plain user edits.

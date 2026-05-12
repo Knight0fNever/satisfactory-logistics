@@ -85,7 +85,7 @@ authSlice         → Supabase session
 gamesSlice        → game list, selected game, per-game factory IDs
 gameSaveSlice     → local/remote persistence state
 factoriesSlice    → factory definitions (inputs, outputs, progress)
-factoryViewSlice  → UI state (grid / spreadsheet / kanban view mode)
+factoryViewSlice  → UI state (grid / detailed / kanban view mode)
 solversSlice      → LP solver instances, request params, node layout
 chartsSlice       → chart visualization preferences
 ```
@@ -103,7 +103,7 @@ React Router v6, defined in [src/routes/FactoriesRoutes.tsx](src/routes/Factorie
 | ---------------------------------------- | -------------------------------------------- |
 | `/login`                                 | Login page                                   |
 | `/privacy-policy`                        | Privacy policy                               |
-| `/factories`                             | Factories list (grid / spreadsheet / kanban) |
+| `/factories`                             | Factories list (grid / detailed / kanban) |
 | `/factories/:id`                         | Factory detail + inline calculator           |
 | `/factories/:id/calculator`              | Factory's solver view                        |
 | `/factories/charts`                      | Sankey / graph charts                        |

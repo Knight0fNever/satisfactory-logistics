@@ -5,12 +5,12 @@ export interface FactoryViewSlice {
   filterName: string | null;
   filterResource: string | null;
   sortBy: 'name';
-  viewMode: 'spreadsheet' | 'kanban' | 'grid';
+  viewMode: 'detailed' | 'kanban' | 'grid';
   readyToPlanHintDismissed?: boolean;
   /**
    * Bumped whenever a remote pull replaces an existing local game's data
    * in `loadSerializedGameIntoState` (override branch). Used as a remount
-   * token by views that hold uncontrolled inputs (e.g. spreadsheet's
+   * token by views that hold uncontrolled inputs (e.g. the detailed view's
    * `<TextInput defaultValue=...>`). Normal local edits MUST NOT bump
    * this: typing in such an input should not remount the row.
    */
@@ -23,7 +23,7 @@ export const factoryViewSlice = createSlice({
     filterName: null,
     filterResource: null,
     sortBy: 'name',
-    viewMode: 'spreadsheet',
+    viewMode: 'detailed',
     readyToPlanHintDismissed: false,
     remoteSyncEpoch: 0,
   } as FactoryViewSlice,

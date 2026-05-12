@@ -33,6 +33,7 @@ import { storeMigrationV2 } from './migrations/v2';
 import { storeMigrationV4 } from './migrations/v4';
 import { storeMigrationV10 } from './migrations/v10';
 import { storeMigrationV11 } from './migrations/v11';
+import { storeMigrationV12 } from './migrations/v12';
 import { withActions } from './zustand-helpers/actions';
 import { forceMigrationOnInitialPersist } from './zustand-helpers/forceMigrationOnInitialPersist';
 import { indexedDbStorage } from './zustand-helpers/indexedDbStorage';
@@ -72,7 +73,7 @@ export const useStore = create(
       name: 'zustand:persist',
       partialize: state =>
         omit(state, ['gameSave', 'peers', 'mapSelection', 'mapInfrastructure']),
-      version: 11,
+      version: 12,
       storage: forceMigrationOnInitialPersist(
         createJSONStorage(() => indexedDbStorage),
       ),
@@ -282,6 +283,13 @@ export const useStore = create(
             'Migrating from version 10 to 11 [factory power cache shape]',
           );
           return storeMigrationV11(state) as typeof state;
+        }
+
+        if (version === 11) {
+          logger.log(
+            'Migrating from version 11 to 12 [factory view mode rename]',
+          );
+          return storeMigrationV12(state) as typeof state;
         }
 
         return state;
