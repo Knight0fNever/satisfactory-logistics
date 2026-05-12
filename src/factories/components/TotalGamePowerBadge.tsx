@@ -14,18 +14,34 @@ export function TotalGamePowerBadge({
 }: TotalGamePowerBadgeProps) {
   const total = useTotalGamePower();
 
-  if (total.countedCount === 0 && total.missingCount === 0) return null;
+  if (
+    total.countedCount === 0 &&
+    total.plannedCountedCount === 0 &&
+    total.missingCount === 0
+  )
+    return null;
 
   const value = total.hasVariable
     ? `${formatRepeatingNumber(total.min)}-${formatRepeatingNumber(total.max)} MW`
     : `${formatRepeatingNumber(total.max)} MW`;
 
-  const tooltip =
-    total.missingCount > 0
-      ? `${total.countedCount} factory power total${
-          total.countedCount === 1 ? '' : 's'
-        } counted, ${total.missingCount} pending calculation`
-      : `${total.countedCount} factor${total.countedCount === 1 ? 'y' : 'ies'} counted`;
+  const plannedValue = total.plannedHasVariable
+    ? `${formatRepeatingNumber(total.plannedMin)}-${formatRepeatingNumber(total.plannedMax)} MW`
+    : `${formatRepeatingNumber(total.plannedMax)} MW`;
+
+  const tooltipParts: string[] = [];
+  tooltipParts.push(
+    `${total.countedCount} done factor${total.countedCount === 1 ? 'y' : 'ies'} counted`,
+  );
+  if (total.plannedCountedCount > 0) {
+    tooltipParts.push(
+      `${total.plannedCountedCount} planned factor${total.plannedCountedCount === 1 ? 'y' : 'ies'}`,
+    );
+  }
+  if (total.missingCount > 0) {
+    tooltipParts.push(`${total.missingCount} pending calculation`);
+  }
+  const tooltip = tooltipParts.join(', ');
 
   return (
     <Tooltip label={tooltip} position="bottom" withArrow>
@@ -38,6 +54,11 @@ export function TotalGamePowerBadge({
         <IconBolt size={size === 'lg' ? 20 : 16} stroke={1.6} />
         <Text size={size}>
           Total: {value}
+          {total.plannedCountedCount > 0 ? (
+            <Text component="span" size="xs" c="yellow.4" ml={4}>
+              (+{plannedValue} planned)
+            </Text>
+          ) : null}
           {showCounts && total.missingCount > 0 ? (
             <Text component="span" size="xs" c="dimmed" ml={6}>
               ({total.missingCount} pending)

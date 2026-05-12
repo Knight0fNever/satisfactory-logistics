@@ -33,6 +33,11 @@ export function ItemTotalsRow({ row }: IItemTotalsRowProps) {
 
   const canExpand = row.producers.length > 0 || row.consumers.length > 0;
 
+  const doneProducers = row.producers.filter(c => c.status === 'done');
+  const plannedProducers = row.producers.filter(c => c.status === 'planned');
+  const doneConsumers = row.consumers.filter(c => c.status === 'done');
+  const plannedConsumers = row.consumers.filter(c => c.status === 'planned');
+
   return (
     <Card withBorder>
       <Group
@@ -61,24 +66,38 @@ export function ItemTotalsRow({ row }: IItemTotalsRowProps) {
           <FactoryItemImage id={row.resource} size={32} />
           <Text fw={500}>{displayName}</Text>
         </Group>
-        <Group gap="xl" wrap="nowrap">
-          <Stack gap={0} align="flex-end" w={120}>
+        <Group gap="xl" wrap="nowrap" align="flex-start">
+          <Stack gap={0} align="flex-end" w={130}>
             <Text size="xs" c="dimmed">
               Produced
             </Text>
-            <Text fw={500}>{formatRate(row.produced)}</Text>
+            <Text fw={600} size="lg">
+              {formatRate(row.produced)}
+            </Text>
+            {row.plannedProduced > 0 && (
+              <Text size="xs" c="yellow.4">
+                +{formatRate(row.plannedProduced)} planned
+              </Text>
+            )}
           </Stack>
-          <Stack gap={0} align="flex-end" w={120}>
+          <Stack gap={0} align="flex-end" w={130}>
             <Text size="xs" c="dimmed">
               Consumed
             </Text>
-            <Text fw={500}>{formatRate(row.consumed)}</Text>
+            <Text fw={600} size="lg">
+              {formatRate(row.consumed)}
+            </Text>
+            {row.plannedConsumed > 0 && (
+              <Text size="xs" c="yellow.4">
+                +{formatRate(row.plannedConsumed)} planned
+              </Text>
+            )}
           </Stack>
-          <Stack gap={0} align="flex-end" w={120}>
+          <Stack gap={0} align="flex-end" w={130}>
             <Text size="xs" c="dimmed">
               Net
             </Text>
-            <Text fw={600} c={netColor}>
+            <Text fw={700} size="lg" c={netColor}>
               {row.net > 0 ? '+' : ''}
               {formatRate(row.net)}
             </Text>
@@ -90,30 +109,66 @@ export function ItemTotalsRow({ row }: IItemTotalsRowProps) {
         <Stack gap="xs" mt="md" pl={40}>
           {row.producers.length > 0 && (
             <Stack gap={4}>
-              <Text size="sm" c="dimmed" fw={500}>
-                Producers
-              </Text>
-              {row.producers.map(c => (
-                <ContributorLine
-                  key={`p:${c.factoryId}`}
-                  contributor={c}
-                  kind="produced"
-                />
-              ))}
+              {doneProducers.length > 0 && (
+                <>
+                  <Text size="sm" c="dimmed" fw={500}>
+                    Producers (Done)
+                  </Text>
+                  {doneProducers.map(c => (
+                    <ContributorLine
+                      key={`p:${c.factoryId}`}
+                      contributor={c}
+                      kind="produced"
+                    />
+                  ))}
+                </>
+              )}
+              {plannedProducers.length > 0 && (
+                <>
+                  <Text size="sm" c="dimmed" fw={500}>
+                    Producers (Planned)
+                  </Text>
+                  {plannedProducers.map(c => (
+                    <ContributorLine
+                      key={`p:${c.factoryId}`}
+                      contributor={c}
+                      kind="produced"
+                    />
+                  ))}
+                </>
+              )}
             </Stack>
           )}
           {row.consumers.length > 0 && (
             <Stack gap={4}>
-              <Text size="sm" c="dimmed" fw={500}>
-                Consumers
-              </Text>
-              {row.consumers.map(c => (
-                <ContributorLine
-                  key={`c:${c.factoryId}`}
-                  contributor={c}
-                  kind="consumed"
-                />
-              ))}
+              {doneConsumers.length > 0 && (
+                <>
+                  <Text size="sm" c="dimmed" fw={500}>
+                    Consumers (Done)
+                  </Text>
+                  {doneConsumers.map(c => (
+                    <ContributorLine
+                      key={`c:${c.factoryId}`}
+                      contributor={c}
+                      kind="consumed"
+                    />
+                  ))}
+                </>
+              )}
+              {plannedConsumers.length > 0 && (
+                <>
+                  <Text size="sm" c="dimmed" fw={500}>
+                    Consumers (Planned)
+                  </Text>
+                  {plannedConsumers.map(c => (
+                    <ContributorLine
+                      key={`c:${c.factoryId}`}
+                      contributor={c}
+                      kind="consumed"
+                    />
+                  ))}
+                </>
+              )}
             </Stack>
           )}
         </Stack>
@@ -134,16 +189,23 @@ function ContributorLine({
       state.factories.factories[contributor.factoryId]?.name ??
       'Untitled factory',
   );
+  const isPlanned = contributor.status === 'planned';
+  const amountColor = isPlanned
+    ? 'yellow.4'
+    : kind === 'produced'
+      ? 'teal.4'
+      : 'red.4';
   return (
     <Group justify="space-between" wrap="nowrap">
       <Anchor
         component={Link}
         to={`/factories/${contributor.factoryId}`}
         size="sm"
+        c={isPlanned ? 'dimmed' : undefined}
       >
         {name}
       </Anchor>
-      <Text size="sm" c={kind === 'produced' ? 'teal.4' : 'red.4'}>
+      <Text size="sm" c={amountColor}>
         {kind === 'produced' ? '+' : '-'}
         {formatRate(contributor.amount)}
       </Text>

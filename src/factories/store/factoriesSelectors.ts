@@ -151,10 +151,15 @@ export interface TotalGamePower {
   min: number;
   max: number;
   hasVariable: boolean;
+  plannedMin: number;
+  plannedMax: number;
+  plannedHasVariable: boolean;
   /** Number of factories in the current game that have not produced a value yet. */
   missingCount: number;
   /** Number of factories that contributed to the totals. */
   countedCount: number;
+  /** Number of planned factories that contributed to the planned totals. */
+  plannedCountedCount: number;
 }
 
 export const useTotalGamePower = (): TotalGamePower => {
@@ -165,16 +170,24 @@ export const useTotalGamePower = (): TotalGamePower => {
         min: 0,
         max: 0,
         hasVariable: false,
+        plannedMin: 0,
+        plannedMax: 0,
+        plannedHasVariable: false,
         missingCount: 0,
         countedCount: 0,
+        plannedCountedCount: 0,
       };
     }
     const factoriesIds = state.games.games[gameId]?.factoriesIds ?? [];
     let min = 0;
     let max = 0;
     let hasVariable = false;
+    let plannedMin = 0;
+    let plannedMax = 0;
+    let plannedHasVariable = false;
     let missingCount = 0;
     let countedCount = 0;
+    let plannedCountedCount = 0;
     for (const id of factoriesIds) {
       const factory = state.factories.factories[id];
       if (!factory || factory.progress === 'disabled') continue;
@@ -183,11 +196,28 @@ export const useTotalGamePower = (): TotalGamePower => {
         missingCount += 1;
         continue;
       }
-      min += power.min;
-      max += power.max;
-      hasVariable = hasVariable || power.hasVariable;
-      countedCount += 1;
+      if (factory.progress === 'done') {
+        min += power.min;
+        max += power.max;
+        hasVariable = hasVariable || power.hasVariable;
+        countedCount += 1;
+      } else {
+        plannedMin += power.min;
+        plannedMax += power.max;
+        plannedHasVariable = plannedHasVariable || power.hasVariable;
+        plannedCountedCount += 1;
+      }
     }
-    return { min, max, hasVariable, missingCount, countedCount };
+    return {
+      min,
+      max,
+      hasVariable,
+      plannedMin,
+      plannedMax,
+      plannedHasVariable,
+      missingCount,
+      countedCount,
+      plannedCountedCount,
+    };
   });
 };
