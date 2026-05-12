@@ -1,5 +1,50 @@
 # Changelog
 
+> Entries below the first divider are inherited from upstream
+> (`rockfactory/satisfactory-logistics`). Entries above the divider are
+> fork-specific (`Knight0fNever/satisfactory-logistics`, the
+> `self-hosted` branch).
+
+## [0.14.3](https://github.com/Knight0fNever/satisfactory-logistics/compare/v0.14.2...v0.14.3) (2026-05-11)
+
+First fork release on top of upstream v0.14.2.
+
+### Features
+
+* per-item Items view on `/factories` aggregating Produced / Consumed /
+  Net rates across factories, with expandable producer & consumer
+  breakdown ([a12fb70](https://github.com/Knight0fNever/satisfactory-logistics/commit/a12fb70))
+* split Done vs Planned totals in the Items view and the Total power
+  badge: headline numbers count only `Done` factories, with `Draft` /
+  `Todo` / `In Progress` shown as small "+X planned" subtext
+  ([1f1b0ae](https://github.com/Knight0fNever/satisfactory-logistics/commit/1f1b0ae))
+* auto-compute and surface per-factory power consumption, with a
+  game-wide Total MW badge in the header and Factories tab
+  ([0354754](https://github.com/Knight0fNever/satisfactory-logistics/commit/0354754))
+
+### Refactors
+
+* rename factory "spreadsheet" view to "detailed" everywhere it surfaces
+  ([e1fe6a6](https://github.com/Knight0fNever/satisfactory-logistics/commit/e1fe6a6))
+
+### Infrastructure
+
+* dockerize the SPA with a multi-stage nginx build for self-hosted
+  deployment ([219655c](https://github.com/Knight0fNever/satisfactory-logistics/commit/219655c))
+* env-ify Supabase config, scaffold base schema, and swap Google OAuth
+  for email auth so the app runs against a self-hosted Supabase instance
+  ([5c76243](https://github.com/Knight0fNever/satisfactory-logistics/commit/5c76243))
+* add a Supabase backup script (36c34ae)
+
+### Docs
+
+* document save-import flow for randomized Satisfactory 1.2 map nodes
+  ([3c08a05](https://github.com/Knight0fNever/satisfactory-logistics/commit/3c08a05))
+* add fork-workflow warning to `CLAUDE.md` so agents do not commit
+  fork-specific work to `main` ([8dd652d](https://github.com/Knight0fNever/satisfactory-logistics/commit/8dd652d))
+
+---
+
 ## [0.14.2](https://github.com/rockfactory/satisfactory-logistics/compare/v0.14.1...v0.14.2) (2026-05-10)
 
 ### Bug Fixes
