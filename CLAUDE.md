@@ -1,5 +1,28 @@
 # Satisfactory Logistics — CLAUDE.md
 
+## Fork Workflow (READ FIRST)
+
+This is a long-lived fork of [rockfactory/satisfactory-logistics](https://github.com/rockfactory/satisfactory-logistics). The branching contract:
+
+- **`main`** is a mirror of `upstream/main`. Do **NOT** commit fork-specific work here. Its only job is to receive `git pull upstream main` and pass it through to `origin`.
+- **`self-hosted`** is the working branch. All fork customizations (Docker, Supabase env config, email auth, deployment tweaks, local UX changes) live here.
+- **`feature/*` / `fix/*`** branches for new work should branch from `self-hosted`, not `main`.
+
+**Before editing anything, agents MUST run `git branch --show-current` and verify it is NOT `main`.** If it is `main`, stop and warn the user — they almost certainly meant to be on `self-hosted` or a topic branch off it. Only proceed on `main` if the user has explicitly said "I'm syncing upstream" or similar.
+
+Upstream sync recipe:
+
+```bash
+git checkout main
+git pull upstream main
+git push                    # update origin/main
+git checkout self-hosted
+git merge main              # or: git rebase main
+git push
+```
+
+---
+
 ## Project Overview
 
 **Satisfactory Logistics** is a React/TypeScript single-page application (SPA) for planning factories in the game [Satisfactory](https://www.satisfactorygame.com/). Key features:
