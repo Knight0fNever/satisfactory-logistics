@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '@/auth/authSelectors';
 import { useStore } from '@/core/zustand';
+import { FactoriesItemsView } from '@/factories/items/FactoriesItemsView';
 import { FactoriesEmptyState } from '@/factories/list/FactoriesEmptyState';
 import { FactoriesKanban } from '@/factories/list/FactoriesKanban';
 import { FactoryRow } from '@/factories/list/FactoryRow';
@@ -75,6 +76,7 @@ export function FactoriesTab(_props: IFactoriesTabProps) {
             ))}
           </SimpleGrid>
         )}
+        {viewMode === 'items' && hasFactories && <FactoriesItemsView />}
         {!hasFactories && <Divider mb="lg" />}
       </Container>
 

@@ -13,6 +13,7 @@ import {
   IconLayoutGrid,
   IconLayoutKanban,
   IconListDetails,
+  IconPackages,
   IconPlus,
   IconSearch,
   IconTextGrammar,
@@ -66,6 +67,15 @@ export function FactoriesFiltersSection(_props: IFactoriesFiltersSectionProps) {
                 </Center>
               ),
               value: 'detailed',
+            },
+            {
+              label: (
+                <Center style={{ gap: 6 }}>
+                  <IconPackages size={16} />
+                  <span>Items</span>
+                </Center>
+              ),
+              value: 'items',
             },
           ]}
           value={factoryView?.viewMode ?? 'grid'}

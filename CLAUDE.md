@@ -108,7 +108,7 @@ authSlice         → Supabase session
 gamesSlice        → game list, selected game, per-game factory IDs
 gameSaveSlice     → local/remote persistence state
 factoriesSlice    → factory definitions (inputs, outputs, progress)
-factoryViewSlice  → UI state (grid / detailed / kanban view mode)
+factoryViewSlice  → UI state (grid / detailed / kanban / items view mode)
 solversSlice      → LP solver instances, request params, node layout
 chartsSlice       → chart visualization preferences
 ```

@@ -5,7 +5,7 @@ export interface FactoryViewSlice {
   filterName: string | null;
   filterResource: string | null;
   sortBy: 'name';
-  viewMode: 'detailed' | 'kanban' | 'grid';
+  viewMode: 'detailed' | 'kanban' | 'grid' | 'items';
   readyToPlanHintDismissed?: boolean;
   /**
    * Bumped whenever a remote pull replaces an existing local game's data
