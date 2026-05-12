@@ -8,6 +8,24 @@ Main features include:
 - Logistics tracking with factories inputs and outputs
 - Calculator for production planning and power generation
 - Game saving & sharing
+- Interactive world map with resource node markers, including support for the randomized nodes introduced in Satisfactory's experimental 1.2 branch (see below)
+
+## Map node randomization (experimental 1.2)
+
+The map view ships with the default resource node layout from the game. Satisfactory's experimental 1.2 branch randomizes the resource type and purity of many nodes (positions stay the same). To make the map reflect your randomized world, upload your `.sav` file:
+
+1. Select (or create) the game you want the overrides applied to. Overrides are scoped per-game.
+2. Open one of the import entry points:
+   - The **map filter panel** on the map page.
+   - The map page's **drop zone** (drag the `.sav` directly onto the map).
+   - The **recipes drawer's** "Import savegame" flow (same parser, same effect on map nodes).
+3. Pick your `.sav`. Parsing runs in a web worker, so the UI stays responsive. A success toast reports how many nodes were randomized.
+
+Notes:
+
+- Every import overwrites the previous override set. Importing a vanilla (non-randomized) save clears it and reverts the map to defaults.
+- Only nodes present in the bundled static dataset are overridden. Runtime-spawned nodes (those with `_UAID_…` ids) are ignored.
+- Currently only fracking satellites carry a randomized purity; other randomized nodes only override resource type.
 
 ## Development
 
