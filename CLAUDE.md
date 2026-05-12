@@ -21,6 +21,16 @@ git merge main              # or: git rebase main
 git push
 ```
 
+### Fresh-clone setup
+
+`.github/workflows/` is intentionally deleted on `self-hosted` (upstream's CI is not used here). `.gitattributes` declares `merge=ours` for that path so upstream sync merges silently drop their workflow changes instead of conflicting. The `ours` merge driver is not built into git — it has to be registered once per clone:
+
+```bash
+git config merge.ours.driver true
+```
+
+Without this, the `.gitattributes` rule is a no-op and you'll get conflicts on `.github/workflows/*` every upstream sync. The setting lives in `.git/config`, so it can't be committed.
+
 ---
 
 ## Project Overview

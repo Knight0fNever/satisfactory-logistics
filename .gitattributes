@@ -5,3 +5,9 @@
 *.gif binary
 *.ico binary
 *.pdf binary
+
+# Fork-specific: drop upstream CI configuration on merge.
+# `self-hosted` keeps these paths deleted; upstream changes to them
+# resolve to "ours" (i.e. our deletion) instead of triggering a conflict.
+# Requires the `ours` merge driver, which is built into git.
+.github/workflows/** merge=ours
